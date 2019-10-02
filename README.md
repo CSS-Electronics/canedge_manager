@@ -33,9 +33,9 @@ config (configuration function examples)
 Requires:
 - [Python 3.7.X](https://www.python.org/downloads/).
 - Python modules (`pip install minio jsonschema pycryptodome`):
- - minio
- - jsonschema
- - pycryptodome
+    - minio
+    - jsonschema
+    - pycryptodome
 
 Tested with the following installed modules:
 ```
