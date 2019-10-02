@@ -1,11 +1,12 @@
 # CANedge over-the-air manager (BETA)
 
-Manage multiple CANedge devices connected to S3. Supports firmware and configuration updates of multiple devices. Works on a single firmware version at a time.
+This tool lets you manage multiple CANedge devices connected to your S3 server. It supports batch over-the-air firmware/configuration updates. The tool works on a single firmware version at a time.
 
 Features:
+- Update Configuration Files (without updating the Firmware)
+- Encrypt device passwords
 - Migrate devices to new Firmwares
 - Migrate Configuration Files for MINOR/MAJOR updates
-- Update Configuration Files (without updating the Firmware)
 - Validates updated configuration files using the device Rule Schema
 - Uses a user provided configuration migration function to update/modify configuration files
 
@@ -86,11 +87,12 @@ ce.cfg_clean()
 
 ## Command Line Interface (CLI) usage
 
-The CLI is a simple front-end to the CANedge manager module. The CLI supports batch firmware, configuration and clean-up operations.
+The CLI is a simple front-end to the CANedge manager. The CLI supports batch firmware, configuration and clean-up operations.
 
 Things to note:
-- The list of devices is created when the tool is started. To refresh the list, re-start the tool
-- Even when using the CLI, the configuration function needs to be written in Python. The `config/` directory provides examples to be used as a starting point
+- The list of devices is created when the tool is started - to refresh the list, re-start the tool
+- When using the CLI, the configuration function needs to be written in Python
+- The `config/` directory provides configuration function examples to be used as a starting point
 - It is recommended to initially test with one or a few devices before updates are applied to all devices
 
 Typing `python canedge_cli.py --help` provides the following help:
@@ -191,8 +193,11 @@ Configuration update device 6 with --dry argument (a unused configuration file i
 - 3B912722 | Config updated
 ```
 
-# Changelog CANedge module
+# Changelog
 All notable changes to this project will be documented in this file.
+
+```
+CANedge module
 
 ## [00.00.02] - 2019-10-02
 ### Added
@@ -201,9 +206,9 @@ All notable changes to this project will be documented in this file.
 - Configuration function prototype changed. Now takes additional arguments "tools", "index" and "device_id"
 - Configuration tools object now includes helper functions for credential encryption
 
-# Changelog CANedge CLI
-All notable changes to this project will be documented in this file.
+CANedge CLI
 
 ## [00.00.02] - 2019-10-02
 ### Added
-- Configuration change `config` command now takes `--dry` argument to create test configuration file `config-XX.XX.json`. Eg. `config -r 0-0 --dry`
+- Configuration change `config` command now takes `--dry` argument to create a test configuration file `config-XX.XX.json`. Eg. `config -r 0-0 --dry`
+```
