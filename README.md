@@ -131,12 +131,13 @@ The format of the S3 server file is:
 ```
 {
   "ALIAS": {
-    "url": "hostname:port",
+    "url": "http://hostname:port",
     "accessKey": "ACCESS_KEY",
     "secretKey": "SECRET_KEY"
   }
 }
 ```
+Note that the url (endpoint) shall include *http://* or *https://*.
 
 Running the above will connect you to the server and fetch a list of devices with specified firmware.
 
