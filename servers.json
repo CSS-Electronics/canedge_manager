@@ -1,0 +1,7 @@
+{
+  "ALIAS": {
+    "url": "http://hostname:port",
+    "accessKey": "ACCESS_KEY",
+    "secretKey": "SECRET_KEY"
+  }
+}
