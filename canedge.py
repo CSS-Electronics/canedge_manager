@@ -6,8 +6,6 @@ from typing import Generator, Dict
 from jsonschema import validate, ValidationError
 from collections import OrderedDict
 from base64 import b64encode, b64decode
-
-# pycryptodome
 from Crypto.PublicKey import ECC
 from Crypto.Hash import HMAC, SHA256
 from Crypto.Cipher import AES

@@ -1,6 +1,6 @@
 {
   "ALIAS": {
-    "url": "http://hostname:port",
+    "url": "hostname:port",
     "accessKey": "ACCESS_KEY",
     "secretKey": "SECRET_KEY"
   }

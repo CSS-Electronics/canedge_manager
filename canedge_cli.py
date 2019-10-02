@@ -175,12 +175,12 @@ if __name__ == '__main__':
     # Parse input arguments
     parser = argparse.ArgumentParser(description='CANedge Command Line Interface',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-s', '--server', type=str, required=False, help='Server configuration file', default='servers.json')
-    parser.add_argument('-a', '--alias', type=str, required=False, help='Server configuration alias', default=None)
+    parser.add_argument('-s', '--server', type=str, required=False, help='A json file containing a list S3 server details (if omitted, servers.json is used)', default='servers.json')
+    parser.add_argument('-a', '--alias', type=str, required=False, help='The alias of the relevant server from server to use (if omitted, the 1st entry is used)', default=None)
     parser.add_argument('-b', '--bucket', type=str, required=True, help='S3 bucket name')
-    parser.add_argument('-f', '--cfgfunc', required=True, type=str, help='Configuration function')
-    parser.add_argument('-c', '--fwcur', required=True, type=str, help='Firmware current binary')
-    parser.add_argument('-n', '--fwnew', required=False, type=str, help='Firmware new binary')
+    parser.add_argument('-f', '--cfgfunc', required=True, type=str, help='A user-provided configuration function applied during the configuration update')
+    parser.add_argument('-c', '--fwcur', required=True, type=str, help='The Firmware file currently used on the devices to be updates (*.bin)')
+    parser.add_argument('-n', '--fwnew', required=False, type=str, help='The Firmware file to be migrated to (*.bin)')
     args = parser.parse_args()
 
     # Start CLI
