@@ -153,7 +153,7 @@ clean  config  exit  help  ls  update
 ```
 
 ### Example on starting the CLI tool:
-`python canedge_cli.py -s servers.json -b office -f config_func_00_07_XX-00_07_XX.py -c firmware_07_01.bin`
+`python canedge_cli.py -s servers.json -b office -f config/config_func_00_07_XX-00_07_XX.py -c firmware_07_01.bin`
 
 ### Example on using the CLI tool:
 List devices:
@@ -192,6 +192,12 @@ Configuration update device 6 with --dry argument (a unused configuration file i
 (CANedge)config -r 6-6 --dry
 - 3B912722 | Config updated
 ```
+
+## Certificate
+If the server uses TLS (https) and a custom certificate is used, it may be necessary to specifically provide the server root certificate. This can be done by setting the environment variable `SSL_CERT_FILE`.
+
+Example on Windows:
+```set SSL_CERT_FILE=C:\Users\bob\Desktop\server_cert.crt```
 
 # Changelog
 All notable changes to this project will be documented in this file.

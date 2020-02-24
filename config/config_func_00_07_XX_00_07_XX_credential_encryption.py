@@ -16,9 +16,6 @@ def config_func(tools, index, device_id, config_old: {}, config_new: {}):
     # New configuration uses same structure. The old configuration can safely be copied to the new.
     config_new = config_old
 
-    # Set device name
-    config_new["general"]["device"]["meta"] = "{};{}".format(index, device_id)
-
     # Only update configurations unencrypted credentials
     if config_new["connect"]["wifi"]["keyformat"] == 0 and config_new["connect"]["s3"]["server"]["keyformat"] == 0:
 
@@ -38,10 +35,5 @@ def config_func(tools, index, device_id, config_old: {}, config_new: {}):
         unencrypted_s3_secretkey = config_new["connect"]["s3"]["server"]["secretkey"]
         config_new["connect"]["s3"]["server"]["keyformat"] = 1
         config_new["connect"]["s3"]["server"]["secretkey"] = tools.security.encrypt_encode(unencrypted_s3_secretkey)
-
-    else:
-        # This configuration update function only supports upgrade of plain to encrypted passwords.
-        # Set new config to None to skip update of config
-        config_new = None
 
     return config_new
