@@ -40,7 +40,7 @@
         "method": 1,
         "f1": "7FF",
         "f2": "0",
-        "prescaler_type": 0
+        "prescaler": 1
       },
       {
         "name": "Ch1AllExtended",
@@ -50,7 +50,7 @@
         "method": 1,
         "f1": "1FFFFFFF",
         "f2": "0",
-        "prescaler_type": 0
+        "prescaler": 1
       }
     ],
     "heartbeat": {
@@ -99,7 +99,7 @@
         "method": 1,
         "f1": "7FF",
         "f2": "0",
-        "prescaler_type": 0
+        "prescaler": 1
       },
       {
         "name": "Ch2AllExtended",
@@ -109,7 +109,7 @@
         "method": 1,
         "f1": "1FFFFFFF",
         "f2": "0",
-        "prescaler_type": 0
+        "prescaler": 1
       }
     ],
     "heartbeat": {
