@@ -12,7 +12,7 @@ class Test_01_02(TestMigrate):
             # Default to default
             (
                 "../fw/ce1-00.07.05.zip",
-                "../fw/ce1-01.02.01.zip",
+                "../fw/ce1-01.02.05.zip",
                 "ce1_00.07_1.json",
                 "ce1_01.02_1.json",
                 "config.config_func_00_07_XX_01_02_XX"
@@ -20,7 +20,7 @@ class Test_01_02(TestMigrate):
             # Non-default values in log section (which is moved to log-file)
             (
                 "../fw/ce1-00.07.05.zip",
-                "../fw/ce1-01.02.01.zip",
+                "../fw/ce1-01.02.05.zip",
                 "ce1_00.07_2.json",
                 "ce1_01.02_2.json",
                 "config.config_func_00_07_XX_01_02_XX"
@@ -28,7 +28,7 @@ class Test_01_02(TestMigrate):
             # Migrate filter with prescaling
             (
                 "../fw/ce1-00.07.05.zip",
-                "../fw/ce1-01.02.01.zip",
+                "../fw/ce1-01.02.05.zip",
                 "ce1_00.07_3.json",
                 "ce1_01.02_3.json",
                 "config.config_func_00_07_XX_01_02_XX"
@@ -37,7 +37,7 @@ class Test_01_02(TestMigrate):
             # Default to default
             (
                 "../fw/ce2-00.07.05.zip",
-                "../fw/ce2-01.02.01.zip",
+                "../fw/ce2-01.02.05.zip",
                 "ce2_00.07_1.json",
                 "ce2_01.02_1.json",
                 "config.config_func_00_07_XX_01_02_XX"
@@ -45,7 +45,7 @@ class Test_01_02(TestMigrate):
             # With Wifi and S3 server. Expects that the signed_payload is set to 0 if endpoint is present
             (
                 "../fw/ce2-00.07.05.zip",
-                "../fw/ce2-01.02.01.zip",
+                "../fw/ce2-01.02.05.zip",
                 "ce2_00.07_2.json",
                 "ce2_01.02_2.json",
                 "config.config_func_00_07_XX_01_02_XX"

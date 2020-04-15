@@ -1,6 +1,3 @@
-import json
-
-
 def migrate_filter_list(filter_list):
 
     # Migrate filter prescaler.
