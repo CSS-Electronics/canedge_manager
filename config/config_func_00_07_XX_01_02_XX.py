@@ -78,10 +78,9 @@ def config_func(tools, index, device_id, config_old: {}, config_new: {}):
         config_new["connect"] = config_old["connect"]
         if "s3" in config_new["connect"]:
             if "server" in config_new["connect"]["s3"]:
-                if "server" in config_new["connect"]["s3"]:
-                    if "endpoint" in config_new["connect"]["s3"]["server"]:
-                        if "signed_payload" not in config_new["connect"]["s3"]["server"]:
-                            # Default SIGNED PAYLOAD to disabled
-                            config_new["connect"]["s3"]["server"]["signed_payload"] = 0
+                if "endpoint" in config_new["connect"]["s3"]["server"]:
+                    if "signed_payload" not in config_new["connect"]["s3"]["server"]:
+                        # Default SIGNED PAYLOAD to disabled
+                        config_new["connect"]["s3"]["server"]["signed_payload"] = 0
 
     return config_new
