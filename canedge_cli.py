@@ -36,7 +36,8 @@ class CANedgeCli(Cmd):
             raise Exception("Server configuration file not found")
 
         # If minio config, load hosts
-        if 'version' in server_cfgs.keys() and server_cfgs["version"] is "9" and 'hosts' in server_cfgs.keys():
+        if 'version' in server_cfgs.keys():
+          if server_cfgs["version"] == "9" and 'hosts' in server_cfgs.keys():
             server_cfgs = server_cfgs["hosts"]
 
         # If alias not provided, default to first in list

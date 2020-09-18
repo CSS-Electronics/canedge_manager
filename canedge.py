@@ -272,8 +272,8 @@ class CANedge(object):
 
             for obj in self.mc.list_objects_v2(self.bucket, prefix=device["id"] + '/', recursive=False):
 
-                # Config
-                r = re.search(r'^[A-F0-9]{8}/(config-\d{2}\.\d{2}\.json)$', obj.object_name)
+                # Config (including the config-XX.XX.json from dry runs)
+                r = re.search(r'^[A-F0-9]{8}/(config-\w{2}\.\w{2}\.json)$', obj.object_name)
                 if r:
                     if (r[1] != self.__fw_old["cfg_name"]) and (r[1] != self.__fw_new["cfg_name"]):
                         self.mc.remove_object(self.bucket, obj.object_name)
