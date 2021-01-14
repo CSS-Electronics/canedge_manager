@@ -17,11 +17,20 @@ class Test_01_04(TestMigrate):
                 "ce1_01.04_1.json",
                 "config.config_func_01_03_XX_01_04_XX"
             ),
-            # CANedge 2
-            # Default to default
+            # CANedge 1
+            # Without lin to mandatory lin
             (
                 "../fw/ce1-01.03.01.zip",
                 "../fw/ce1-01.04.01.zip",
+                "ce1_01.03_2.json",
+                "ce1_01.04_2.json",
+                "config.config_func_01_03_XX_01_04_XX"
+            ),
+            # CANedge 2
+            # Default to default
+            (
+                "../fw/ce2-01.03.01.zip",
+                "../fw/ce2-01.04.01.zip",
                 "ce2_01.03_1.json",
                 "ce2_01.04_1.json",
                 "config.config_func_01_03_XX_01_04_XX"

@@ -43,4 +43,4 @@ class TestMigrate(object):
 
             # Compare with expected
             with open(config_path_tmp) as json_file:
-                assert config_expected == json.load(json_file)
+                assert json.load(json_file) == config_expected, "Unexpected migration"
