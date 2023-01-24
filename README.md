@@ -32,28 +32,12 @@ config (configuration function examples)
 ## Installation
 
 Requires:
-- [Python 3.7.X](https://www.python.org/downloads/).
+- [Python 3.9.X](https://www.python.org/downloads/).
 - Python modules (`pip install minio jsonschema pycryptodome`):
     - minio
     - jsonschema
     - pycryptodome
-
-Tested with the following installed modules:
-```
-$ pip freeze
-attrs==19.2.0
-certifi==2019.9.11
-future==0.17.1
-jsonschema==3.0.2
-minio==5.0.1
-pycryptodome==3.9.0
-pyrsistent==0.15.4
-python-dateutil==2.8.0
-pytz==2019.2
-six==1.12.0
-urllib3==1.25.6
-```
-
+    
 ## Module usage
 The CANedge module can be imported and used directly to update device firmware and configuration.
 

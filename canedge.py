@@ -270,7 +270,7 @@ class CANedge(object):
 
             res = {"res": CANedgeReturnCodes.OK, "id": device["id"], "removed": []}
 
-            for obj in self.mc.list_objects_v2(self.bucket, prefix=device["id"] + '/', recursive=False):
+            for obj in self.mc.list_objects(self.bucket, prefix=device["id"] + '/', recursive=False):
 
                 # Config (including the config-XX.XX.json from dry runs)
                 r = re.search(r'^[A-F0-9]{8}/(config-\w{2}\.\w{2}\.json)$', obj.object_name)
