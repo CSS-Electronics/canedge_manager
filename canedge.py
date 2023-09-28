@@ -134,7 +134,16 @@ class CANedge(object):
     @staticmethod
     def __parse_fw_bin(fw_bin):
 
-        assert (fw_bin[0:4] == b"\xDE\xAD\x10\xCC") or (fw_bin[0:4] == b"\xBA\xAD\xA5\x55"), "Invalid fw binary"
+        # Supported binary header patterns
+        fw_bin_header_patterns = [
+            b"\xDE\xAD\x10\xCC",    # CE1
+            b"\x0F\x49\x47\xCF",    # CE1G
+            b"\xBA\xAD\xA5\x55",    # CE2
+            b"\x7F\xD4\x31\x11",    # CE2G
+            b"\xE6\x70\xC7\x27",    # CE3
+            b"\xB7\x4D\x18\x58",    # CE3G
+        ]
+        assert fw_bin[0:4] in fw_bin_header_patterns, "Invalid fw binary"
 
         # Get firmware revision
         rev_major = fw_bin[4]
