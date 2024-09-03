@@ -1,7 +1,7 @@
 import re
 import io
 import json
-from enum import IntEnum
+from enum import Enum, IntEnum
 from typing import Generator, Dict
 from jsonschema import validate, ValidationError
 from collections import OrderedDict
@@ -78,20 +78,26 @@ class CANEdgeSecurity(object):
         return b64encode(self.ksym).decode()
 
     @property
-    def sym_key_base64(self) -> str:
-        return b64encode(self.ksym).decode()
-
-    @property
     def user_public_key_base64(self) -> str:
         if self.user_kpub_string_xy is None:
             exit("User public key not set")
         return b64encode(self.user_kpub_string_xy).decode()
 
 
-class CANedgeConfig(object):
+class CANedgeType(str, Enum):
+    UNKNOWN =   ""
+    CANEDGE1 =  "0000001D"
+    CANEDGE1G = "0000005D"
+    CANEDGE2 =  "0000001F"
+    CANEDGE2G = "0000005F"
+    CANEDGE3 =  "0000003D"
+    CANEDGE3G = "0000007D"
+
+
+class CANedgeTools(object):
 
     def __init__(self, device_public_key_base64: str):
-        # Create the security object, used to enctrypt fields in configuration
+        # Create the security object, used to encrypt fields in configuration
         self._security = CANEdgeSecurity(device_public_key_base64)
         pass
 
@@ -101,7 +107,7 @@ class CANedgeConfig(object):
 
 class CANedge(object):
 
-    __VERSION = "00.00.02"
+    __VERSION = "00.00.03"
 
     def __init__(self, mc, bucket, fw_old_path, fw_new_path=None):
 
@@ -120,7 +126,9 @@ class CANedge(object):
         self.__fw_old = self.__parse_fw_bin(fw_old_bin)
         self.__fw_new = self.__parse_fw_bin(fw_new_bin)
 
-        # Get devices matching the schema version
+        assert self.__fw_old["type"] == self.__fw_new["type"], "Firmwares not compatible"
+
+        # Get devices matching type and schema version
         self.__devices = []
         for device in self.__s3_get_devices():
             self.__devices.append(device)
@@ -134,16 +142,23 @@ class CANedge(object):
     @staticmethod
     def __parse_fw_bin(fw_bin):
 
-        # Supported binary header patterns
-        fw_bin_header_patterns = [
-            b"\xDE\xAD\x10\xCC",    # CE1
-            b"\x0F\x49\x47\xCF",    # CE1G
-            b"\xBA\xAD\xA5\x55",    # CE2
-            b"\x7F\xD4\x31\x11",    # CE2G
-            b"\xE6\x70\xC7\x27",    # CE3
-            b"\xB7\x4D\x18\x58",    # CE3G
-        ]
-        assert fw_bin[0:4] in fw_bin_header_patterns, "Invalid fw binary"
+        fw_bin_header_pattern = fw_bin[0:4]
+
+        type = CANedgeType.UNKNOWN
+        if fw_bin_header_pattern == b"\xDE\xAD\x10\xCC":
+            type = CANedgeType.CANEDGE1
+        elif fw_bin_header_pattern == b"\x0F\x49\x47\xCF":
+            type = CANedgeType.CANEDGE1G
+        elif fw_bin_header_pattern == b"\xBA\xAD\xA5\x55":
+            type = CANedgeType.CANEDGE2
+        elif fw_bin_header_pattern == b"\x7F\xD4\x31\x11":
+            type = CANedgeType.CANEDGE2G
+        elif fw_bin_header_pattern == b"\xE6\x70\xC7\x27":
+            type = CANedgeType.CANEDGE3
+        elif fw_bin_header_pattern == b"\xB7\x4D\x18\x58":
+            type = CANedgeType.CANEDGE3G
+        else:
+            assert False, "Invalid fw binary"
 
         # Get firmware revision
         rev_major = fw_bin[4]
@@ -163,7 +178,12 @@ class CANedge(object):
         config_nob = int.from_bytes(fw_bin[36:40], byteorder='big')
         config = fw_bin[config_offset:config_offset + config_nob].decode("utf-8")
 
-        return {"fw_ver": rev_string, "sch_name": schema_name, "sch": schema, "cfg_name": config_name, "cfg": config}
+        return {"type": type,
+                "fw_ver": rev_string,
+                "sch_name": schema_name,
+                "sch": schema,
+                "cfg_name": config_name,
+                "cfg": config}
 
     def __s3_get_obj_string(self, obj_name):
         data_string = ""
@@ -191,8 +211,8 @@ class CANedge(object):
                     # Load device file
                     device = json.loads(self.__s3_get_obj_string(obj2.object_name))
 
-                    # If schema version matches, append to output
-                    if device["sch_name"] == self.__fw_old["sch_name"]:
+                    # If type and schema version match, append to output
+                    if (device["type"] == self.__fw_old["type"]) and (device["sch_name"] == self.__fw_old["sch_name"]):
                         yield device
 
     @property
@@ -244,15 +264,18 @@ class CANedge(object):
             cfg_new_obj = json.loads(self.__fw_new["cfg"], object_pairs_hook=OrderedDict)
 
             # Create config object
-            tools = CANedgeConfig(device_public_key_base64=device["kpub"])
+            tools = CANedgeTools(device_public_key_base64=device["kpub"])
+
+            # Get canedge type
+            device_type = CANedgeType(device.get("type", ""))
 
             # Invoke the users migration call-back function
-            cfg_updated = cfg_cb(tools, index, device_id, cfg_old_obj, cfg_new_obj)
+            cfg_updated = cfg_cb(tools, index, device_type, device_id, cfg_old_obj, cfg_new_obj)
 
             # Validate the new configuration against the new schema
             schema_new = json.loads(self.__fw_new["sch"])
             try:
-                msg = validate(instance=cfg_updated, schema=schema_new)
+                validate(instance=cfg_updated, schema=schema_new)
             except ValidationError as e:
                 res["res"] = CANedgeReturnCodes.CONFIG_VALIDATION_ERROR
                 res["msg"] = e.message

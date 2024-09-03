@@ -1,4 +1,4 @@
-def config_func(tools, index, device_id, config_old: {}, config_new: {}):
+def config_func(tools, index, device_type, device_id, config_old: {}, config_new: {}):
     """
     CANedge configuration update function
     :param tools: A collection of tools used for device configuration

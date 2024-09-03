@@ -5,7 +5,7 @@ import os
 import re
 from cmd import Cmd
 from minio import Minio
-from canedge import CANedge, CANedgeReturnCodes
+from canedge_manager import CANedge, CANedgeReturnCodes
 
 class CANedgeCli(Cmd):
 

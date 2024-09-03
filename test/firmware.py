@@ -2,7 +2,7 @@ import os
 from zipfile import ZipFile
 
 
-def unpack(fw_path, outdir):
+def fw_unpack(fw_path, outdir):
 
     # Unzip firmware package
     with ZipFile(fw_path, 'r') as zipObj:

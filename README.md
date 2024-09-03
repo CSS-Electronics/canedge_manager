@@ -1,6 +1,6 @@
 # CANedge over-the-air manager (BETA)
 
-This tool lets you manage multiple CANedge devices connected to your S3 server. It supports batch over-the-air firmware/configuration updates. The tool works on a single firmware version at a time.
+This tool lets you manage multiple CANedge devices connected to your S3 server. It supports batch over-the-air firmware/configuration updates. The tool works on a single firmware version and single CANedge variant at a time.
 
 Features:
 - Update Configuration Files (without updating the Firmware)
@@ -12,37 +12,23 @@ Features:
 
 ## Project structure
 The project structure is:
-```
-.gitignore
-LICENSE
-README.md (this readme!)
-canedge.py (main canedge manager module)
-canedge_cli.py (canedge manager command line interface)
-servers.json (example of S3 server details file)
-config (configuration function examples)
-│   compatible configuration function examples)
-│   ...
-|
-└───obsolete
-    │   (compatible configuration function examples)
-    |   ...
 
-```
+- `canedge_manager.py` (main canedge manager module)
+- `canedge_manager_cli.py` (canedge manager command line interface)
+- `servers.json` (example of S3 server details file)
+- `config/` (configuration function examples)
 
 ## Installation
 
-Requires:
-- [Python 3.9.X](https://www.python.org/downloads/).
-- Python modules (`pip install minio jsonschema pycryptodome`):
-    - minio
-    - jsonschema
-    - pycryptodome
+Tested with [Python 3.11](https://www.python.org/downloads/).
+
+Requirements: `pip install -r requirement`
     
 ## Module usage
 The CANedge module can be imported and used directly to update device firmware and configuration.
 
 ```python
-from canedge import CANedge, CANedgeReturnCodes
+from canedge_manager import CANedge, CANedgeReturnCodes
 
 # Create client connection to S3 server
 mc = Minio(endpoint="S3_SERVER_ENDPOINT",
@@ -137,7 +123,7 @@ clean  config  exit  help  ls  update
 ```
 
 ### Example on starting the CLI tool:
-`python canedge_cli.py -s servers.json -b office -f config/config_func_00_07_XX-00_07_XX.py -c firmware_07_01.bin`
+`python canedge_manager_cli.py -s servers.json -b office -f config/config_func_01_07_XX-01_08_XX.py -c firmware_01_08.01.bin`
 
 ### Example on using the CLI tool:
 List devices:
@@ -171,7 +157,7 @@ Configuration update devices 0-5:
 - 2FB30D1C | Config updated
 ```
 
-Configuration update device 6 with --dry argument (a unused configuration file is created):
+Configuration update device 6 with --dry argument (an unused configuration file is created):
 ```
 (CANedge)config -r 6-6 --dry
 - 3B912722 | Config updated
@@ -188,6 +174,12 @@ All notable changes to this project will be documented in this file.
 
 ```
 CANedge module
+
+## [00.00.03] - 2024-09-03
+
+### Changed
+- Manager now only works with one CANEdge type/model at a time
+- "device_type" (CANedgeType) input added to configuration functions
 
 ## [00.00.02] - 2019-10-02
 ### Added

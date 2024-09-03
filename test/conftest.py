@@ -1,12 +1,13 @@
 import pytest
 from time import sleep
-from test.s3Client import S3Client
-from test.s3ServerMinio import S3ServerMinio
+
+from test.s3_client import S3Client
+from test.s3_server import S3ServerMinio
+
 
 @pytest.fixture
 def bucket_name():
     return 'testbucket'
-
 
 @pytest.fixture
 def s3_server(tmpdir):
@@ -16,7 +17,6 @@ def s3_server(tmpdir):
     yield server
     server.stop()
     sleep(1)
-
 
 @pytest.fixture
 def s3_client(s3_server, bucket_name):

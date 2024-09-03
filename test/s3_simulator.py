@@ -1,7 +1,7 @@
 import json
 import random
-
-from test.s3Client import S3Client
+from canedge_manager import CANedgeType
+from test.s3_client import S3Client
 
 
 class S3Simulate(object):
@@ -11,7 +11,7 @@ class S3Simulate(object):
         self._bucket_name = bucket_name
         pass
 
-    def populate(self, schema_name: str, config_name: str, config_path, devices_nof=10):
+    def populate(self, type: CANedgeType, schema_name: str, config_name: str, config_path, devices_nof=10):
 
         # Push simulated devices on S3
         for i in range(0, devices_nof):
@@ -19,7 +19,7 @@ class S3Simulate(object):
 
             # Create and push a device.json file
             device_obj_name = device_id + '/device.json'
-            device_obj = json.dumps({"id": device_id, "sch_name": schema_name, "kpub": ""})
+            device_obj = json.dumps({"type": type.value, "id": device_id, "sch_name": schema_name, "kpub": ""})
             self._s3_client.put_object_string(self._bucket_name, device_obj_name, device_obj)
 
             # Push the config file

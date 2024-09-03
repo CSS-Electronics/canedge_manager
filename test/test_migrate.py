@@ -1,14 +1,14 @@
 import json
 import importlib
 from os import path
-from canedge import CANedge, CANedgeReturnCodes
-from test.fwPackage import unpack
-from test.s3Simulate import S3Simulate
+from canedge_manager import CANedge, CANedgeReturnCodes, CANedgeType
+from test.firmware import fw_unpack
+from test.s3_simulator import S3Simulate
 
 
 class TestMigrate(object):
 
-    def main(self, s3_client, fw_pack_pre, fw_pack_post, cfg_pre, cfg_post, cfg_func_name, bucket_name, tmpdir):
+    def main(self, s3_client, type: CANedgeType, fw_pack_pre, fw_pack_post, cfg_pre, cfg_post, cfg_func_name, bucket_name, tmpdir):
 
         # Import config (migration) function
         cfg_func_module = importlib.import_module(cfg_func_name)
@@ -19,18 +19,21 @@ class TestMigrate(object):
             config_expected = json.load(json_file)
 
         # Extract fw packs
-        fw_pre = unpack(fw_pack_pre, path.join(tmpdir, 'pre'))
-        fw_post = unpack(fw_pack_post, path.join(tmpdir, 'post'))
+        fw_pre = fw_unpack(fw_pack_pre, path.join(tmpdir, 'pre'))
+        fw_post = fw_unpack(fw_pack_post, path.join(tmpdir, 'post'))
 
         # Create s3 simulation
         s3_simulate = S3Simulate(s3_client=s3_client, bucket_name=bucket_name)
-        s3_simulate.populate(schema_name=fw_pre['schema_name'],
+        s3_simulate.populate(type=type,
+                             schema_name=fw_pre['schema_name'],
                              config_name=fw_pre['config_name'],
                              config_path=cfg_pre,
                              devices_nof=self._simulated_devices_nof)
 
         # Create canedge manager
         ce = CANedge(s3_client, bucket_name, fw_pre['firmware_path'], fw_post['firmware_path'])
+
+        assert len(ce.device_ids) == self._simulated_devices_nof, "Unexpected number of devices found"
 
         # Update configurations
         for result in ce.cfg_update(device_ids_to_update=ce.device_ids, cfg_cb=cfg_func):
@@ -44,3 +47,4 @@ class TestMigrate(object):
             # Compare with expected
             with open(config_path_tmp) as json_file:
                 assert json.load(json_file) == config_expected, "Unexpected migration"
+
