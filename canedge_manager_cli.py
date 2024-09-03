@@ -9,8 +9,6 @@ from canedge_manager import CANedge, CANedgeReturnCodes
 
 class CANedgeCli(Cmd):
 
-    __VERSION = "00.00.02"
-
     intro = ""
     prompt = "(CANedge)"
 
@@ -66,14 +64,13 @@ class CANedgeCli(Cmd):
         self.ce = CANedge(mc=mc, bucket=args["bucket"], fw_old_path=args["fwcur"], fw_new_path=args["fwnew"])
 
         # Info text
-        self.intro += "CANedge CLI version: {}, using CANedge module version: {}\n"\
-            .format(self.__VERSION, self.ce.tool_version)
-        self.intro += "- S3 client connected to: {}/{}\n".format(server_cfg["url"], args["bucket"])
+        self.intro += f"CANedge manager CLI using CANedge manager API version: {self.ce.tool_version}\n"
+        self.intro += f"- S3 client connected to: {server_cfg['url']}/{args['bucket']}\n"
         if args["fwnew"] is None:
-            self.intro += "- Firmware {}\n".format(self.ce.fw)
+            self.intro += f"- Firmware {self.ce.fw}\n"
         else:
-            self.intro += "Firmware: {}->{}\n".format(self.ce.fw, self.ce.fw_migration)
-        self.intro += "- Configuration function: {}\n".format(cfgfunc_name)
+            self.intro += f"Firmware: {self.ce.fw}->{self.ce.fw_migration}\n"
+        self.intro += f"- Configuration function: {cfgfunc_name}\n"
         self.intro += "Type \"exit\" to exit\n"
         self.intro += "Type \"help\" for list of commands"
 
@@ -185,5 +182,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Start CLI
-    CANedgeCli(vars(args)).cmdloop()
+    cli = CANedgeCli(vars(args))
+    cli.cmdloop(intro=cli.intro)
     pass
