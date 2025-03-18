@@ -1,6 +1,6 @@
 # CANedge over-the-air manager (BETA)
 
-This tool lets you manage multiple CANedge devices connected to your S3 server. It supports batch over-the-air firmware/configuration updates. The tool works on a single firmware version and single CANedge variant at a time.
+This tool lets you manage multiple CANedge devices connected to your S3 server. It supports batch over-the-air firmware/configuration updates. The tool works on a single firmware version and single CANedge variant at a time. It works with any S3 compatible storage (AWS, Google Cloud, MinIO, ...).
 
 Features:
 - Update Configuration Files (without updating the Firmware)
@@ -25,33 +25,47 @@ Tested with [Python 3.11](https://www.python.org/downloads/).
 Requirements: `pip install -r requirement`
     
 ## Module usage
-The CANedge module can be imported and used directly to update device firmware and configuration.
+The CANedge module can be imported and used directly to update device firmware and configuration:
 
 ```python
-from canedge_manager import CANedge, CANedgeReturnCodes
 
+from canedge_manager import CANedge
+from minio import Minio
+from config_func_00_07_XX_credential_encryption import config_func as config_func
+
+#-------------------------------------
+# Add relevant input variables
+devices = ["12345678"]
+bucket = "your-bucket"
+endpoint = "your-endpoint" # e.g. s3.us-east-1.amazonaws.com
+access_key = "your-access-key"
+secret_key = "your-secret-key"
+secure = False
+fw_old_path = "path-to-old/firmware.bin"
+fw_new_path = "path-to-new/firmware.bin"
+
+#-------------------------------------
 # Create client connection to S3 server
-mc = Minio(endpoint="S3_SERVER_ENDPOINT",
-           access_key="ACCESS_KEY",
-           secret_key="SECRET_KEY",
-           secure=True)
+mc = Minio(endpoint=endpoint,
+           access_key=access_key,
+           secret_key=secret_key,
+           secure=secure)
 
 # Init a CANedge object
 ce = CANedge(mc=mc,
-             bucket="BUCKETNAME",
-             fw_old_path="OLD_FIRMWARE_PATH.bin",
-             fw_new_path="NEW_FIRMWARE_PATH.bin")
+             bucket=bucket,
+             fw_old_path=fw_old_path,
+             fw_new_path=fw_new_path)
 
 # Update configuration for a list of devices
-ce.cfg_update(device_ids_to_update=[LIST OF DEVICE IDs],
-              cfg_cb=CONFIGURATION_FUNCTION,
-              config_name=config_name)
+list(ce.cfg_update(device_ids_to_update=devices, cfg_cb=config_func))
 
 # Update firmware for a list of devices
-ce.fw_update(device_ids_to_update=[LIST OF DEVICE IDs])
+list(ce.fw_update(device_ids_to_update=devices))
 
 # Cleans unused Configuration and Rule Schema files
-ce.cfg_clean()
+list(ce.cfg_clean())
+
 
 ```
 
