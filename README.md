@@ -22,7 +22,7 @@ The project structure is:
 
 Tested with [Python 3.11](https://www.python.org/downloads/).
 
-Requirements: `pip install -r requirement`
+Requirements: `pip install -r requirements.txt`
     
 ## Module usage
 The CANedge module can be imported and used directly to update device firmware and configuration:
@@ -137,7 +137,10 @@ clean  config  exit  help  ls  update
 ```
 
 ### Example on starting the CLI tool:
-`python canedge_manager_cli.py -s servers.json -b office -f config/config_func_01_07_XX-01_08_XX.py -c firmware_01_08.01.bin`
+```
+python canedge_manager_cli.py -s servers.json -b office -f config/config_func_01_07_XX_01_08_XX.py -c firmware_01_08.01.bin
+```
+Note: This example assumes you have download the relevant `firmware.bin` and renamed it as above.
 
 ### Example on using the CLI tool:
 List devices:
