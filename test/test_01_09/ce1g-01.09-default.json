@@ -1,0 +1,393 @@
+{
+  "general": {
+    "device": {},
+    "security": {},
+    "debug": {
+      "syslog": 1,
+      "restart_timer": 0
+    }
+  },
+  "log": {
+    "file": {
+      "split_size": 50,
+      "split_time_period": 0,
+      "split_time_offset": 0,
+      "cyclic": 1
+    },
+    "compression": {
+      "level": 0
+    },
+    "encryption": {
+      "state": 0
+    },
+    "error_frames": {
+      "state": 0
+    }
+  },
+  "rtc": {
+    "sync": 0,
+    "timezone": 0,
+    "adjustment": 0
+  },
+  "secondaryport": {
+    "power_schedule": []
+  },
+  "can_internal": {
+    "general": {
+      "rx_state": 1,
+      "tx_state": 1
+    },
+    "filter": {
+      "id": [
+        {
+          "name": "Heartbeat",
+          "state": 0,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "2",
+          "f2": "2",
+          "prescaler_type": 0
+        },
+        {
+          "name": "TimeCalendar",
+          "state": 0,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "3",
+          "f2": "3",
+          "prescaler_type": 0
+        },
+        {
+          "name": "TimeExternal",
+          "state": 0,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "5",
+          "f2": "5",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssStatus",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "65",
+          "f2": "65",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssTime",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "66",
+          "f2": "66",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnsssPosition",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "67",
+          "f2": "67",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssAltitude",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "68",
+          "f2": "68",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssAttitude",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "69",
+          "f2": "69",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssDistance",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "6A",
+          "f2": "6A",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssSpeed",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "6B",
+          "f2": "6B",
+          "prescaler_type": 0
+        },
+        {
+          "name": "GnssGeofence",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "6C",
+          "f2": "6C",
+          "prescaler_type": 0
+        },
+        {
+          "name": "ImuAlign",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "6E",
+          "f2": "6E",
+          "prescaler_type": 0
+        },
+        {
+          "name": "ImuAcc",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "6F",
+          "f2": "6F",
+          "prescaler_type": 0
+        }
+      ]
+    },
+    "control": {
+      "control_rx_state": 0,
+      "control_tx_state": 0,
+      "start": {
+        "message": {
+          "chn": 0,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      },
+      "stop": {
+        "message": {
+          "chn": 0,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      }
+    }
+  },
+  "can_1": {
+    "general": {
+      "rx_state": 1,
+      "tx_state": 1
+    },
+    "phy": {
+      "mode": 1,
+      "retransmission": 1,
+      "fd_spec": 0,
+      "bit_rate_cfg_mode": 0
+    },
+    "filter": {
+      "remote_frames": 0,
+      "id": [
+        {
+          "name": "AllStandardID",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "0",
+          "f2": "7FF",
+          "prescaler_type": 0
+        },
+        {
+          "name": "AllExtendedID",
+          "state": 1,
+          "type": 0,
+          "id_format": 1,
+          "method": 0,
+          "f1": "0",
+          "f2": "1FFFFFFF",
+          "prescaler_type": 0
+        }
+      ]
+    },
+    "control": {
+      "control_rx_state": 0,
+      "control_tx_state": 0,
+      "start": {
+        "message": {
+          "chn": 1,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      },
+      "stop": {
+        "message": {
+          "chn": 1,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      }
+    }
+  },
+  "can_2": {
+    "general": {
+      "rx_state": 1,
+      "tx_state": 1
+    },
+    "phy": {
+      "mode": 1,
+      "retransmission": 1,
+      "fd_spec": 0,
+      "bit_rate_cfg_mode": 0
+    },
+    "filter": {
+      "remote_frames": 0,
+      "id": [
+        {
+          "name": "AllStandardID",
+          "state": 1,
+          "type": 0,
+          "id_format": 0,
+          "method": 0,
+          "f1": "0",
+          "f2": "7FF",
+          "prescaler_type": 0
+        },
+        {
+          "name": "AllExtendedID",
+          "state": 1,
+          "type": 0,
+          "id_format": 1,
+          "method": 0,
+          "f1": "0",
+          "f2": "1FFFFFFF",
+          "prescaler_type": 0
+        }
+      ]
+    },
+    "control": {
+      "control_rx_state": 0,
+      "control_tx_state": 0,
+      "start": {
+        "message": {
+          "chn": 2,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      },
+      "stop": {
+        "message": {
+          "chn": 2,
+          "id_format": 0,
+          "id": "0",
+          "id_mask": "7FF"
+        },
+        "signal": {
+          "type": 0,
+          "byteorder": 0,
+          "bitpos": 0,
+          "length": 0,
+          "factor": 0,
+          "offset": 0
+        },
+        "trigger_high": 0,
+        "trigger_low": 0
+      }
+    }
+  },
+  "lin_1": {
+    "phy": {
+      "mode": 0,
+      "bit_rate": 19200
+    }
+  },
+  "lin_2": {
+    "phy": {
+      "mode": 0,
+      "bit_rate": 19200
+    }
+  },
+  "gnss": {
+    "system": 5,
+    "invalid_signals": 0,
+    "alignment": {
+      "method": 0,
+      "z": 0,
+      "y": 0,
+      "x": 0
+    },
+    "geofence": [],
+    "dyn_model": 0
+  }
+}
