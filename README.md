@@ -192,6 +192,11 @@ All notable changes to this project will be documented in this file.
 ```
 CANedge module
 
+## [00.00.04] - 2025-11-25
+
+### Changed
+- Updated to work with Minio SDK 7.2
+
 ## [00.00.03] - 2024-09-03
 
 ### Changed

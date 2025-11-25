@@ -26,7 +26,7 @@ def s3_client(s3_server, bucket_name):
                       secure=False)
 
     # Clear bucket
-    client.remove_bucket_r(bucket_name)
-    client.make_bucket(bucket_name)
+    client.remove_bucket_r(bucket_name=bucket_name)
+    client.make_bucket(bucket_name=bucket_name)
 
     return client

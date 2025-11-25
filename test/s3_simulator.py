@@ -20,10 +20,10 @@ class S3Simulate(object):
             # Create and push a device.json file
             device_obj_name = device_id + '/device.json'
             device_obj = json.dumps({"type": type.value, "id": device_id, "sch_name": schema_name, "kpub": ""})
-            self._s3_client.put_object_string(self._bucket_name, device_obj_name, device_obj)
+            self._s3_client.put_object_string(bucket_name=self._bucket_name, object_name=device_obj_name, string=device_obj)
 
             # Push the config file
             config_obj_name = device_id + '/' + config_name
-            self._s3_client.fput_object(self._bucket_name, config_obj_name, config_path)
+            self._s3_client.fput_object(bucket_name=self._bucket_name, object_name=config_obj_name, file_path=config_path)
         pass
 

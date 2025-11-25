@@ -42,7 +42,7 @@ class TestMigrate(object):
         # Get and verify all updated configs
         for device_id in ce.device_ids:
             config_path_tmp = path.join(tmpdir, 'config.json')
-            s3_client.fget_object(bucket_name, device_id + '/' + fw_post['config_name'], config_path_tmp)
+            s3_client.fget_object(bucket_name=bucket_name, object_name=f"{device_id}/{fw_post['config_name']}", file_path=config_path_tmp)
 
             # Compare with expected
             with open(config_path_tmp) as json_file:

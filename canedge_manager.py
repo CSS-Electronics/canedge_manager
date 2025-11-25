@@ -107,7 +107,7 @@ class CANedgeTools(object):
 
 class CANedge(object):
 
-    __VERSION = "00.00.03"
+    __VERSION = "00.00.04"
 
     def __init__(self, mc, bucket, fw_old_path, fw_new_path=None):
 
@@ -187,7 +187,7 @@ class CANedge(object):
 
     def __s3_get_obj_string(self, obj_name):
         data_string = ""
-        data = self.mc.get_object(self.bucket, obj_name)
+        data = self.mc.get_object(bucket_name=self.bucket, object_name=obj_name)
         for d in data.stream(1024):
             data_string += d.decode('ascii')
         return data_string
@@ -195,7 +195,7 @@ class CANedge(object):
     def __s3_put_obj_string(self, obj_name, string):
         data = io.BytesIO(string.encode())
         nob = data.getbuffer().nbytes
-        self.mc.put_object(self.bucket, obj_name, data, nob)
+        self.mc.put_object(bucket_name=self.bucket, object_name=obj_name, data=data, length=nob)
 
     def __s3_get_devices(self) -> Generator[Dict, None, None]:
         """
@@ -203,13 +203,13 @@ class CANedge(object):
         :return:
         """
         # Loop devices
-        for obj1 in self.mc.list_objects(self.bucket, recursive=False):
+        for obj1 in self.mc.list_objects(bucket_name=self.bucket, recursive=False):
             # Loop device files
-            for obj2 in self.mc.list_objects(self.bucket, prefix=obj1.object_name, recursive=False):
+            for obj2 in self.mc.list_objects(bucket_name=self.bucket, prefix=obj1.object_name, recursive=False):
                 r = re.search(r'^([A-F0-9]{8})/device\.json$', obj2.object_name)
                 if r:
                     # Load device file
-                    device = json.loads(self.__s3_get_obj_string(obj2.object_name))
+                    device = json.loads(self.__s3_get_obj_string(obj_name=obj2.object_name))
 
                     # If type and schema version match, append to output
                     if (device["type"] == self.__fw_old["type"]) and (device["sch_name"] == self.__fw_old["sch_name"]):
@@ -224,11 +224,11 @@ class CANedge(object):
         return self.__fw_new["fw_ver"]
 
     @property
-    def devices(self) -> []:
+    def devices(self) -> list:
         return self.__devices
 
     @property
-    def device_ids(self) -> []:
+    def device_ids(self) -> list:
         return list((x['id'] for x in self.__devices))
 
     @property
@@ -236,7 +236,7 @@ class CANedge(object):
         return self.__VERSION
 
     # Update configuration
-    def cfg_update(self, device_ids_to_update: [str], cfg_cb, config_name=None) -> Generator[Dict, None, None]:
+    def cfg_update(self, device_ids_to_update: list[str], cfg_cb, config_name=None) -> Generator[Dict, None, None]:
         """
         Updates device configuration using provided migration function
         :param device_ids_to_update:
@@ -321,7 +321,7 @@ class CANedge(object):
             yield res
 
     # Update firmware
-    def fw_update(self, device_ids_to_update: [str]) -> Generator[Dict, None, None]:
+    def fw_update(self, device_ids_to_update: list[str]) -> Generator[Dict, None, None]:
 
         # Loop devices
         for device_id in device_ids_to_update:
